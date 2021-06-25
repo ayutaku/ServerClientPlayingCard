@@ -1,0 +1,63 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch TestGameR",
+            "request": "launch",
+            "mainClass": "TestGameR",
+            "projectName": "zikken2_ee56e020"
+        },
+        {
+            "type": "java",
+            "name": "Launch Test",
+            "request": "launch",
+            "mainClass": "Test",
+            "projectName": "zikken2_ee56e020"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "zikken2_ee56e020"
+        },
+        {
+            "type": "java",
+            "name": "Launch PlayerController",
+            "request": "launch",
+            "mainClass": "PlayerController",
+            "projectName": "zikken2_ee56e020"
+        },
+        {
+            "type": "java",
+            "name": "Launch PlayerUI",
+            "request": "launch",
+            "mainClass": "PlayerUI",
+            "projectName": "zikken2_ee56e020"
+        },
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch JabberClient",
+            "request": "launch",
+            "mainClass": "JabberClient",
+            "projectName": "zikken2_ee56e020"
+        },
+        {
+            "type": "java",
+            "name": "Launch JabberServer",
+            "request": "launch",
+            "mainClass": "JabberServer",
+            "projectName": "zikken2_ee56e020"
+        }
+    ]
+}
