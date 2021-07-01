@@ -13,8 +13,7 @@ public class Main {
 
         }else if(med.info.GetIAm()=='c'){
             System.out.println("test:私はクライアント");
-            //この書き方は微妙。なぜなら終わったmainにもどることになるから
-            med.connect.Wait();
+            med.StartClientWait();
         }else{
             System.out.println("error:私は何者でもありません");
         }
