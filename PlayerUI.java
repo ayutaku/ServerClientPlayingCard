@@ -13,7 +13,7 @@ public class PlayerUI {
 
    
 
-    public void EndGame(Scanner sc){//最後にこれを呼び出す
+    public void EndGame(){//最後にこれを呼び出す
         Println("ゲームを終了します。");
         //ここでscをクローズ
         sc.close();

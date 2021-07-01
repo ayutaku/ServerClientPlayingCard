@@ -70,11 +70,31 @@ System.out.println(str);
      if(!socketConnect){
         s.close();
      }else{
-        System.out.println("else文で終了");
-        Close();
+        System.out.println("else文にいる");
+        //Close();
      }
  
  }
+ }
+
+ @Override
+ public void Send(String mes){
+    out.println(mes);
+ }
+
+ @Override
+ public String Wait(){
+     String mes;
+     try{
+        mes = in.readLine();
+        System.out.println("test:mesは"+mes);
+        return mes;
+     }catch(IOException e){
+        Close();
+        System.out.println(e);
+        return "error";
+     }
+    
  }
 
  

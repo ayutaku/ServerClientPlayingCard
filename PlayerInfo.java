@@ -5,8 +5,9 @@ public class PlayerInfo {
     private int myHandsN = 0;//現在の手札の枚数
     private char iAm;//'s'か'c'のみ。ServerかClientか
    
-    PlayerInfo(char iAmSorC){
-         SetIAm(iAmSorC);
+    PlayerInfo(){}
+    PlayerInfo(char iAmsorc){
+         SetIAm(iAmsorc);
     }
 
     public void SetHands(int cardN){
@@ -20,9 +21,9 @@ public class PlayerInfo {
         return ret;
     }
 
-    public void SetIAm(char iAmSorC){
-        if(iAmSorC == 's' || iAmSorC == 'c'){
-            this.iAm = iAmSorC; 
+    public void SetIAm(char iAmsorc){
+        if(iAmsorc == 's' || iAmsorc == 'c'){
+            this.iAm = iAmsorc; 
         }
         
     }
