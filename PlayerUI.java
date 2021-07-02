@@ -26,23 +26,24 @@ public class PlayerUI {
         System.out.println(text);
     }
 
-    public String QA(String question, String[] ansData){
+    public char QA(String question, char[] ansData){
         //毎回scをnewするのは冗長かもしれないが、static宣言の関係で現状このように書いている
         //Scanner sc = new Scanner(System.in);
         System.out.println(question);
-        String ans =sc.next();
-        System.out.println(ans+"が入力されました");
+        String ansStr =sc.next();
+        System.out.println(ansStr+"が入力されました");
         //sc.close();//プログラムの途中でcloseすると、System.in自体がとじてしまい、そのあとscanできなくなる
         
+
         
-        int returnN = CheckAns(ans, ansData);
+        int returnN = CheckAns(ansStr.charAt(0), ansData);//charAt(x)でx番目の文字をcharで返す
         return ansData[returnN];
     }
 
-    public int CheckAns(String playerAns ,String[] ansData){
+    public int CheckAns(char playerAns ,char[] ansData){
         for(int i = 0; i<ansData.length;i++){
             //System.out.println(ansData.length);
-            if(playerAns.equals(ansData[i]) ){
+            if(playerAns==ansData[i] ){
                 System.out.println(playerAns);
                 return i;
             }
@@ -52,11 +53,11 @@ public class PlayerUI {
 
         Println("エラーです。もう一度入力してください。");
         //Scanner sc = new Scanner(System.in);
-        String ans = sc.next();
-        System.out.println(ans+"が入力されました");
+        String ansStr =sc.next();
+        System.out.println(ansStr+"が入力されました");
         //sc.close();
     
-        return CheckAns(ans, ansData);
+        return CheckAns(ansStr.charAt(0), ansData);
     }
 
     

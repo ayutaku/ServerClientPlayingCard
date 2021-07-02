@@ -18,11 +18,13 @@ public class GameRoom {
     }
 
     public void GameStart(){
-        med.TextToAll("これから15点のゲームを始めます。15点は子→親の順にトランプを任意の数だけ引き、15点に近い人が勝利するゲームです。尚、15点を超えた場合は負けとなります。両者とも15点を超えるか、同じ点数の場合は引き分けです。");
-        med.TextToAll("まずは子からカードを引きます");
+        Message mes = new Message();
+
+        med.SendToAll("TXT","これから15点のゲームを始めます。15点は子→親の順にトランプを任意の数だけ引き、15点に近い人が勝利するゲームです。尚、15点を超えた場合は負けとなります。両者とも15点を超えるか、同じ点数の場合は引き分けです。");
+        med.SendToAll("TXT","まずは子からカードを引きます");
 
         //この辺は関数で呼び出し
-        String cReturn = med.Wait("カードを引いてください",'c');
+        /*String cReturn = med.Wait("カードを引いてください",'c');
         String sReturn = med.Wait("対戦相手がカードを引いています",'s');
 
         System.out.println(cReturn);
@@ -44,12 +46,15 @@ public class GameRoom {
         }else{
             med.TextToAll("ゲームを終了します");
             med.End();
-        }
+        }*/
+
+        //test
+        med.End();
         
 
     }
 
-    public void Result(){
+    /*public void Result(){
         //ここに結果の演算を書く
         med.TextToAll("結果を送信");
     }
@@ -66,7 +71,7 @@ public class GameRoom {
             return false;
         }
         
-    }
+    }*/
 
     //カードを引く処理
 

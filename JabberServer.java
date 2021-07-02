@@ -78,26 +78,43 @@ System.out.println(str);
  }
 
  @Override
- public void Send(String mes){
-    out.println(mes);
+ public void Send(Message mes){
+    out.println(mes.type);
+    out.println(mes.txt);
+
+    //BufferReaderではchar[]を読み込めないため、stringにして送る
+    String ansStr="";
+    for(int i=0;i<mes.ansData.length;i++){
+        ansStr += mes.ansData.toString();
+    }
+    out.print(ansStr);
+    
  }
 
  @Override
- public String Wait(){
-     String mes;
+ public Message Wait(){
+     Message mes = new Message();
+     System.out.println("test:wait内");
      try{
-        mes = in.readLine();
+        mes.type = in.readLine();
+        mes.txt = in.readLine();
+        String ansStr = in.readLine();
+
+        for(int i=0;i<ansStr.length();i++){
+            mes.ansData[i] = ansStr.charAt(i);
+        }
+
         System.out.println("test:mesは"+mes);
         return mes;
      }catch(IOException e){
         Close();
         System.out.println(e);
-        return "error";
+        mes.txt = "error";
+        return mes;
      }
     
  }
 
- 
  //Closeしない限り通信可能なはず
  public void Close() {
     System.out.println("closing...");

@@ -18,21 +18,21 @@ public class Mediator {
 
     public void StartConnection(){
         ui.Println("これから15点のゲームを初めます");
-        String[] ansData = {"make","search"};
-        String ans = ui.QA("対戦部屋を作りますか？探しますか？\n対戦部屋を作る場合は「make」、探す場合は「search」と入力してください。",ansData);
+        char[] ansData = {'b','s'};
+        char ans = ui.QA("対戦部屋を作りますか？探しますか？\n対戦部屋を作る(build)場合は「b」、探す(search)場合は「s」と入力してください。",ansData);
         System.out.println("test:"+ans);
         SetConnection(ans);
        
     }
 
-    public void SetConnection(String makeSearch){
+    public void SetConnection(char makeSearch){
 
-        if(makeSearch == "make"){
+        if(makeSearch == 'b'){
             //server
             connect = new JabberServer();
             info.SetIAm('s');
             
-        }else if(makeSearch == "search"){
+        }else if(makeSearch == 's'){
             //client
             connect = new JabberClient();
             info.SetIAm('c');
@@ -43,12 +43,16 @@ public class Mediator {
     }
 
     public void StartClientWait(){
-        String mes;
+        Message mes = new Message();
         while(true){
             mes = connect.Wait();
+            
             //mesの種類を確認する処理
-            ui.Println(mes);
-            if(mes =="END"){
+            ui.Println(mes.txt);
+            //System.out.println("test:戻り値のmes"+mes);
+            if(mes.type.equals("END")){
+                //javaでのstringの比較は==ではなく.equals(==はアドレスの比較になる)
+                //System.out.println("test:break");
                 break;
             }
 
@@ -69,49 +73,85 @@ public class Mediator {
 
 
     //ここからは通信についての処理
-   
-    public void TextToAll(String text){
-        System.out.println("全員へ");
+    public void SendToAll(String type, String txt){
+        //System.out.println("test:全員へ");
         //System.out.println(text);
         //ui.Println(text);
-        TextToServer(text);
-        TextToClient(text);
+        char[] x = {'x'};//数合わせ
+        SendToServer(type,txt,x);
+        SendToClient(type,txt,x);
 
     }
 
-    public void TextToServer(String text){
-        System.out.println("Serverへ");
+    //"QUE"の時
+    public void SendToAll(String type, String txt,char[] ansData){
+        System.out.println("test:全員へ");
         //System.out.println(text);
+        //ui.Println(text);
+        SendToServer(type,txt,ansData);
+        SendToClient(type,txt,ansData);
+
+    }
+
+    public void SendToServer(String type, String txt){
+        char[] x = {'x'};//数合わせ
+        SendToServer(type, txt,x);   
+    }
+
+    //"QUE"の時
+    public void SendToServer(String type, String txt,char[] ansData){
+        System.out.println("test:Serverへ");
+        //System.out.println(text);
+        Message mes = new Message();
+        mes.type = type;
+        mes.txt = txt;
+        mes.ansData = ansData;
         if(info.GetIAm()=='s'){
-            ui.Println(text);
+            //表示の仕方
+            //ui.Println(text);
         }else if (info.GetIAm()=='c'){
-            connect.Send(text);
+            connect.Send(mes);
         }else{
             System.out.println("error:iAmがs,cではありません");
         }
         
     }
 
-    public void TextToClient(String text){
-        System.out.println("Clientへ");
+    public void SendToClient(String type, String txt){
+        char[] x = {'x'};//数合わせ
+        SendToClient(type, txt, x);
+    }
+
+    //QUEの時
+    public void SendToClient(String type, String txt,char[] ansData){
+        System.out.println("test:Clientへ");
+        Message mes = new Message();
+        mes.type = type;
+        mes.txt = txt;
+        mes.ansData = ansData;
+
         //System.out.println(text);
         //clientへ送信する処理
         if(info.GetIAm()=='s'){
-            connect.Send(text);
+            connect.Send(mes);
         }else if (info.GetIAm()=='c'){
-            ui.Println(text);
+            //表示の関数が必要
+            //ui.Println(text);
         }else{
             System.out.println("error:iAmがs,cではありません");
         }
         
     }
 
-    public void DiffTextToSC(String serverText,String crientText){
-        TextToServer(serverText);
-        TextToClient(crientText);
-    }
+   /* public void DiffSendToSC(Message serverMes,Message crientMes){
+        SendToServer(serverMes);
+        SendToClient(crientMes);
+    }*/
 
-    public String Wait(String text, char sOrc){
+
+
+
+   /* public String Wait(String text, char sOrc){
         String retStr;
         if(sOrc=='s'){
             retStr = WaitServer(text);
@@ -126,10 +166,10 @@ public class Mediator {
     }
 
     public String WaitServer(String text){
-        System.out.println("Serverへ");
+        System.out.println("test:Serverへ");
         System.out.println(text);
 
-        String ret = "-1";
+        Message ret;
 
         if(info.GetIAm()=='s'){
             ret = connect.Wait();
@@ -143,12 +183,12 @@ public class Mediator {
             Thread.sleep(10000);
         }catch(InterruptedException e){
             System.out.println(e);
-        }*/
+        }*
         return ret;
     }
 
     public String WaitCLient(String text){
-        System.out.println("Clientへ");
+        System.out.println("test:Clientへ");
         System.out.println(text);
 
         String ret = "-1";
@@ -166,15 +206,16 @@ public class Mediator {
             Thread.sleep(10000);
         }catch(InterruptedException e){
             System.out.println(e);
-        }*/
+        }*
      
         return ret;
-    }
+    }*/
 
     public void End(){
         //end処理は特別扱い
-        System.out.println("end処理");
-        TextToClient("END");
+        System.out.println("test:end処理");
+        
+        SendToClient("END","-1");
     }
 
     

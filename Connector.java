@@ -18,8 +18,8 @@ public abstract class Connector {
     //本当はprivateにしたいけど、継承するためにはpublicにしないとできない？
     public abstract void StartConnect() throws IOException;
 
-    public abstract void Send(String mes);
-    public abstract String Wait();
+    public abstract void Send(Message mes);
+    public abstract Message Wait();
 
     public abstract void Close();
 
