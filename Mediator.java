@@ -45,16 +45,20 @@ public class Mediator {
     public void StartClientWait(){
         Message mes = new Message();
         while(true){
-            mes = connect.Wait();
             
-            //mesの種類を確認する処理
-            ui.Println(mes.txt);
-            //System.out.println("test:戻り値のmes"+mes);
-            if(mes.type.equals("END")){
-                //javaでのstringの比較は==ではなく.equals(==はアドレスの比較になる)
-                //System.out.println("test:break");
-                break;
+            mes = connect.Wait();
+            if(mes !=null){
+                 //mesの種類を確認する処理
+                GetMessage(mes);
+                 //ui.Println(mes.txt);
+                    //System.out.println("test:戻り値のmes"+mes);
+                if(mes.type.equals("END")){
+                    //javaでのstringの比較は==ではなく.equals(==はアドレスの比較になる)
+                    //System.out.println("test:break");
+                    break;
+                }
             }
+           
 
         }
     }
@@ -74,7 +78,7 @@ public class Mediator {
 
     //ここからは通信についての処理
     public void SendToAll(String type, String txt){
-        //System.out.println("test:全員へ");
+        System.out.println("test:全員へ");
         //System.out.println(text);
         //ui.Println(text);
         char[] x = {'x'};//数合わせ
@@ -106,9 +110,11 @@ public class Mediator {
         mes.type = type;
         mes.txt = txt;
         mes.ansData = ansData;
+        System.out.print("ここは通った");
         if(info.GetIAm()=='s'){
             //表示の仕方
             //ui.Println(text);
+            GetMessage(mes);
         }else if (info.GetIAm()=='c'){
             connect.Send(mes);
         }else{
@@ -137,6 +143,7 @@ public class Mediator {
         }else if (info.GetIAm()=='c'){
             //表示の関数が必要
             //ui.Println(text);
+            GetMessage(mes);
         }else{
             System.out.println("error:iAmがs,cではありません");
         }
@@ -216,6 +223,26 @@ public class Mediator {
         System.out.println("test:end処理");
         
         SendToClient("END","-1");
+    }
+
+    //自分当てのmesを受け取った時に使う関数
+    public void GetMessage(Message mes){
+        switch(mes.type){
+            case "TXT":
+                System.out.println("GetMesのtxt内");
+                ui.Println(mes.txt);
+                break;
+            case "QUE":
+
+                break;
+            case "ANS":
+                break;
+            case "END":
+                Close();
+                break;
+            default:
+                System.out.println("error:mesのtypeが"+mes.type+"です。GetMessageのswitch文を確認してください");
+        }
     }
 
     

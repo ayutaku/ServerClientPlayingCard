@@ -79,15 +79,19 @@ System.out.println(str);
 
  @Override
  public void Send(Message mes){
+     
     out.println(mes.type);
+    System.out.println("送ったのは"+mes.type);
     out.println(mes.txt);
+    System.out.println("送ったのは"+mes.txt);
 
     //BufferReaderではchar[]を読み込めないため、stringにして送る
     String ansStr="";
     for(int i=0;i<mes.ansData.length;i++){
-        ansStr += mes.ansData.toString();
+        ansStr = ansStr + mes.ansData[i];
     }
-    out.print(ansStr);
+    out.println(ansStr);
+    System.out.println("送ったのは"+ansStr);
     
  }
 

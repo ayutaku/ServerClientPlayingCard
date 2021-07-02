@@ -20,7 +20,7 @@ public class Main {
 
 
 
-        med.Close();
+        med.Close();//"END"を受け取った時にもcloseはしている
      
     }
 

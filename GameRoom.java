@@ -12,14 +12,14 @@ public class GameRoom {
         //conM = new ConnectionManager();
         med = argMed;
 
-        
+        System.out.print("test:GameRoomのコンストラクタ内");
         
         GameStart();
     }
 
     public void GameStart(){
-        Message mes = new Message();
-
+        //Message mes = new Message();
+        System.out.println("GameRoomのGameStart()");
         med.SendToAll("TXT","これから15点のゲームを始めます。15点は子→親の順にトランプを任意の数だけ引き、15点に近い人が勝利するゲームです。尚、15点を超えた場合は負けとなります。両者とも15点を超えるか、同じ点数の場合は引き分けです。");
         med.SendToAll("TXT","まずは子からカードを引きます");
 

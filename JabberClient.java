@@ -56,6 +56,13 @@ public class JabberClient extends Connector{
  public void Send(Message mes){
     out.println(mes.type);
     out.println(mes.txt);
+
+    //BufferReaderではchar[]を読み込めないため、stringにして送る
+    String ansStr="";
+    for(int i=0;i<mes.ansData.length;i++){
+        ansStr += mes.ansData.toString();
+    }
+    out.print(ansStr);
     
  }
 
@@ -65,7 +72,16 @@ public class JabberClient extends Connector{
      System.out.println("test:wait内");
      try{
         mes.type = in.readLine();
+        System.out.println("受け取った時のは"+mes.type);
+
         mes.txt = in.readLine();
+        System.out.println("受け取った時のは"+mes.txt);
+        String ansStr = in.readLine();
+        System.out.println("受け取った時のは"+ansStr);
+
+        for(int i=0;i<ansStr.length();i++){
+            mes.ansData[i] = ansStr.charAt(i);
+        }
 
         System.out.println("test:mesは"+mes);
         return mes;
