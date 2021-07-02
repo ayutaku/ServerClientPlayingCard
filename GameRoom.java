@@ -27,9 +27,12 @@ public class GameRoom {
 
         med.SendToAll("TXT","次に親がカードを引きます");
 
-        //DrawPhase('s');//ここがまだ動かない
+        DrawPhase('s');//ここがまだ動かない
 
         med.SendToAll("TXT","両者カードを引きました");
+
+        med.SendToAll("TXT","結果は以下の通りです");
+        
 
         //この辺は関数で呼び出し
         /*String cReturn = med.Wait("カードを引いてください",'c');
@@ -78,8 +81,8 @@ public class GameRoom {
                 System.out.println("error:sOrcの値が"+sOrc+"です");
             }
             
-            //相手からの応答を待つ処理
-            ansMes = med.WaitServer();
+            
+            ansMes = med.GetAnserMessage(sOrc);//相手がクライアントの場合は応答を待つ処理も含まれる
 
 
             ansMesCh =ansMes.txt.charAt(0);

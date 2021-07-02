@@ -5,7 +5,7 @@ public class Mediator {
     PlayerUI ui;
     PlayerInfo info;
     Connector connect;
-    
+    Message answerMessage;
     
 
     Mediator(){
@@ -102,7 +102,7 @@ public class Mediator {
         SendToServer(type, txt,x);   
     }
 
-    //"QUE"以外の時
+    
     public void SendToServer(String type, String txt,char[] ansData){
         System.out.println("test:Serverへ");
         //System.out.println(text);
@@ -113,7 +113,7 @@ public class Mediator {
         
         if(info.GetIAm()=='s'){
             //表示の仕方
-           
+           System.out.println("test:ここは通った");
             GetMessage(mes);
         }else if (info.GetIAm()=='c'){
             connect.Send(mes);
@@ -159,6 +159,14 @@ public class Mediator {
 
 
 
+    public Message GetAnserMessage(char fromSOrc){
+        //clientからの時はwaitを呼び出す必要がある
+        if(fromSOrc == 'c'){
+            WaitServer();
+        }
+
+        return answerMessage;
+    }
 
     public Message Wait(/*String text, */char sOrc){
         Message retMes;
@@ -183,7 +191,7 @@ public class Mediator {
 
         if(info.GetIAm()=='s'){
             retMes = connect.Wait();
-            GetMessage(retMes);//これを行う必要はないが一応
+            GetMessage(retMes);
         }else if (info.GetIAm()=='c'){
             //サーバーに対してクライアントが待てと命令することはないという前提
             System.out.println("error:サーバーに対してクライアントが待てと命令することはないという前提");
@@ -218,7 +226,7 @@ public class Mediator {
         }else if (info.GetIAm()=='c'){
             
             retMes = connect.Wait();
-            GetMessage(retMes);//これを行う必要はないが一応
+            GetMessage(retMes);
         }else{
             System.out.println("error:iAmがs,cではありません");
             retMes = new Message();
@@ -254,7 +262,7 @@ public class Mediator {
             case "ANS":
                 //ANSが送られて来るのはServerだけの前提。Client側ではGameRoomをインスタンス化していないのでエラーになる
                 System.out.println("test:ANSのmesが送られて来ました");
-
+                answerMessage = mes;
                 break;
             case "END":
                 Close();
