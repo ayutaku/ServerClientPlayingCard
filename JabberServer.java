@@ -81,9 +81,9 @@ System.out.println(str);
  public void Send(Message mes){
      
     out.println(mes.type);
-    System.out.println("送ったのは"+mes.type);
+    System.out.println("test:送ったのは"+mes.type);
     out.println(mes.txt);
-    System.out.println("送ったのは"+mes.txt);
+    System.out.println("test:送ったのは"+mes.txt);
 
     //BufferReaderではchar[]を読み込めないため、stringにして送る
     String ansStr="";
@@ -91,7 +91,7 @@ System.out.println(str);
         ansStr = ansStr + mes.ansData[i];
     }
     out.println(ansStr);
-    System.out.println("送ったのは"+ansStr);
+    System.out.println("test:送ったのは"+ansStr);
     
  }
 
@@ -108,7 +108,7 @@ System.out.println(str);
             mes.ansData[i] = ansStr.charAt(i);
         }
 
-        System.out.println("test:mesは"+mes);
+        
         return mes;
      }catch(IOException e){
         Close();

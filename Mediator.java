@@ -87,7 +87,7 @@ public class Mediator {
 
     }
 
-    //"QUE"の時
+   
     public void SendToAll(String type, String txt,char[] ansData){
         System.out.println("test:全員へ");
         //System.out.println(text);
@@ -96,13 +96,13 @@ public class Mediator {
         SendToClient(type,txt,ansData);
 
     }
-
+      //"QUE"以外の時
     public void SendToServer(String type, String txt){
         char[] x = {'x'};//数合わせ
         SendToServer(type, txt,x);   
     }
 
-    //"QUE"の時
+    //"QUE"以外の時
     public void SendToServer(String type, String txt,char[] ansData){
         System.out.println("test:Serverへ");
         //System.out.println(text);
@@ -110,13 +110,14 @@ public class Mediator {
         mes.type = type;
         mes.txt = txt;
         mes.ansData = ansData;
-        System.out.print("ここは通った");
+        
         if(info.GetIAm()=='s'){
             //表示の仕方
-            //ui.Println(text);
+           
             GetMessage(mes);
         }else if (info.GetIAm()=='c'){
             connect.Send(mes);
+
         }else{
             System.out.println("error:iAmがs,cではありません");
         }
@@ -128,7 +129,7 @@ public class Mediator {
         SendToClient(type, txt, x);
     }
 
-    //QUEの時
+   
     public void SendToClient(String type, String txt,char[] ansData){
         System.out.println("test:Clientへ");
         Message mes = new Message();
@@ -140,9 +141,10 @@ public class Mediator {
         //clientへ送信する処理
         if(info.GetIAm()=='s'){
             connect.Send(mes);
+            
         }else if (info.GetIAm()=='c'){
             //表示の関数が必要
-            //ui.Println(text);
+            
             GetMessage(mes);
         }else{
             System.out.println("error:iAmがs,cではありません");
@@ -158,65 +160,78 @@ public class Mediator {
 
 
 
-   /* public String Wait(String text, char sOrc){
-        String retStr;
+    public Message Wait(/*String text, */char sOrc){
+        Message retMes;
         if(sOrc=='s'){
-            retStr = WaitServer(text);
+            retMes = WaitServer(/*text*/);
         }else if(sOrc=='c'){
-            retStr = WaitCLient(text);
+            retMes = WaitCLient(/*text*/);
         }else{
             System.out.println("エラー:sOrcの値が"+sOrc+"です。");
-            retStr = "error";
+            retMes = new Message();
+            retMes.txt = "error";
         }
 
-        return retStr;
+        return retMes;
     }
 
-    public String WaitServer(String text){
-        System.out.println("test:Serverへ");
-        System.out.println(text);
+    public Message WaitServer(/*String text*/){
+        System.out.println("test:ServerへWait命令");
+        
 
-        Message ret;
+        Message retMes;
 
         if(info.GetIAm()=='s'){
-            ret = connect.Wait();
+            retMes = connect.Wait();
+            GetMessage(retMes);//これを行う必要はないが一応
         }else if (info.GetIAm()=='c'){
             //サーバーに対してクライアントが待てと命令することはないという前提
             System.out.println("error:サーバーに対してクライアントが待てと命令することはないという前提");
+            retMes = new Message();
+            retMes.txt = "error";
         }else{
             System.out.println("error:iAmがs,cではありません");
+            retMes = new Message();
+            retMes.txt = "error";
         }
         /*try{
             Thread.sleep(10000);
         }catch(InterruptedException e){
             System.out.println(e);
-        }*
-        return ret;
+        }*/
+        return retMes;
     }
 
-    public String WaitCLient(String text){
-        System.out.println("test:Clientへ");
-        System.out.println(text);
+    public Message WaitCLient(/*String text*/){
+        System.out.println("test:ClientへWait命令");
+       
+        Message retMes;
 
-        String ret = "-1";
+        
 
         if(info.GetIAm()=='s'){
            //サーバーからクライアントへ待機命令
            System.out.println("test:サーバーからクライアントへ待機命令");
+           retMes = new Message();
+           retMes.txt = "error";
+
         }else if (info.GetIAm()=='c'){
             
-            ret = connect.Wait();
+            retMes = connect.Wait();
+            GetMessage(retMes);//これを行う必要はないが一応
         }else{
             System.out.println("error:iAmがs,cではありません");
+            retMes = new Message();
+            retMes.txt = "error";
         }
         /*try{
             Thread.sleep(10000);
         }catch(InterruptedException e){
             System.out.println(e);
-        }*
+        }*/
      
-        return ret;
-    }*/
+        return retMes;
+    }
 
     public void End(){
         //end処理は特別扱い
@@ -229,13 +244,17 @@ public class Mediator {
     public void GetMessage(Message mes){
         switch(mes.type){
             case "TXT":
-                System.out.println("GetMesのtxt内");
                 ui.Println(mes.txt);
                 break;
             case "QUE":
+                char ans = ui.QA(mes.txt, mes.ansData);
+                SendToServer("ANS", String.valueOf(ans));//Serverに送るというよりもGameRoomに送るという感覚
 
                 break;
             case "ANS":
+                //ANSが送られて来るのはServerだけの前提。Client側ではGameRoomをインスタンス化していないのでエラーになる
+                System.out.println("test:ANSのmesが送られて来ました");
+
                 break;
             case "END":
                 Close();
