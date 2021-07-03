@@ -5,6 +5,7 @@ public class PlayerInfo {
     //private static int[] hands = new int[15];//15枚以上はとらないという設定（後で16枚以上の処理を書く）
     //private int myHandsN = 0;//現在の手札の枚数
     private char iAm;//'s'か'c'のみ。ServerかClientか
+    private String nickName;
    
     PlayerInfo(){}
 
@@ -31,7 +32,17 @@ public class PlayerInfo {
     }
    
     public char GetIAm(){
-      
         return iAm;
+
     }
+
+    public void SetNickName(String name){
+        nickName = name;
+    }
+
+    public String GetNickName(){
+        return nickName;
+
+    }
+
 }

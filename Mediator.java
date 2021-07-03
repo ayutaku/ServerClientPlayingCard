@@ -5,16 +5,30 @@ public class Mediator {
     Connector connect;
     Message answerMessage;
     
+    private int portN = 8080;
 
     Mediator(){
         ui = new PlayerUI();
         info = new PlayerInfo();
     }
 
-    
+    public void SetNickName(){
+      
+        ui.Println("これから15点のゲームを始めます。まずはあなたのニックネームを教えてください。(半角英数字のみでお願いします)");
+        String name = ui.GetSCStr();
+        info.SetNickName(name);
+    }
+
+    public void SetPortN(){
+        ui.Println("次にポート番号を入力してください");
+        String portNStr = ui.GetSCStr();
+
+        //port番号が不適合の場合の処理
+        portN = Integer.parseInt(portNStr);
+    }
 
     public void StartConnection(){
-        ui.Println("これから15点のゲームを初めます");
+        
         char[] ansData = {'b','s'};
         char ans = ui.QA("対戦部屋を作りますか？探しますか？\n対戦部屋を作る(build)場合は「b」、探す(search)場合は「s」と入力してください。",ansData);
        
@@ -24,12 +38,12 @@ public class Mediator {
     public void SetConnection(char makeSearch){
         if(makeSearch == 'b'){
             //Server側を選択
-            connect = new JabberServer();
+            connect = new JabberServer(portN);
             info.SetIAm('s');
             
         }else if(makeSearch == 's'){
             //Client側を選択
-            connect = new JabberClient();
+            connect = new JabberClient(portN);
             info.SetIAm('c');
 
         }else{
@@ -70,6 +84,9 @@ public class Mediator {
                 SendToServer("ANS", String.valueOf(ans));//Serverに送るというよりもGameRoomに送るという感覚
 
                 break;
+            case "NAM":
+                //ニックネーム取得処理
+                SendToServer("ANS", info.GetNickName());
             case "ANS":
                 answerMessage = mes;
                 break;

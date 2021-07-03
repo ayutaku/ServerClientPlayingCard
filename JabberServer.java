@@ -1,12 +1,15 @@
 import java.io.*;
 import java.net.*;
 public class JabberServer extends Connector{
-public static final int PORT = 8080; // ポート番号を設定する．
+//public static final int PORT = 8080; // ポート番号を設定する．
 private BufferedReader in;
 private PrintWriter out;
 private ServerSocket s;
 private Socket socket;
 
+    JabberServer(int portN){
+        super(portN);
+    }
 
     //継承元のConnectorのコンストラクタで↓が呼ばれている
     @Override

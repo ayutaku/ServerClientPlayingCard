@@ -5,10 +5,20 @@ public class GameRoom {
     private Hand sHands;
     private Hand cHands;
 
+    private String sName;
+    private String cName;
+
 
     GameRoom(Mediator argMed){
         deck = new Deck();
         med = argMed;
+        SetName();
+    }
+
+    public void SetName(){
+        sName = med.info.GetNickName() + "さん";
+        med.SendToClient("NAM", "-1");
+        cName = med.GetAnserMessage('c').txt + "さん" ;
     }
 
     public void GameStart(){
@@ -16,18 +26,16 @@ public class GameRoom {
         sHands = new Hand();
         cHands = new Hand();
  
-        med.SendToAll("TXT","これから15点のゲームを始めます。15点は子→親の順にトランプを任意の数だけ引き、15点に近い人が勝利するゲームです。尚、15点を超えた場合は負けとなります。両者とも15点を超えるか、同じ点数の場合は引き分けです。");
-        med.SendToAll("TXT","まずは子からカードを引きます");
+        med.SendToAll("TXT","これから15点のゲームを始めます。15点は子("+cName+")→親("+sName+")の順にトランプを任意の数だけ引き、15点に近い人が勝利するゲームです。尚、15点を超えた場合は負けとなります。両者とも15点を超えるか、同じ点数の場合は引き分けです。");
+        med.SendToAll("TXT","まずは"+cName+"からカードを引きます");
 
         DrawPhase('c');//クライアントのドローフェーズ
 
-        med.SendToAll("TXT","次に親がカードを引きます");
+        med.SendToAll("TXT","次に"+sName+"がカードを引きます");
 
         DrawPhase('s');//サーバーのドローフェーズ
 
-        med.SendToAll("TXT","両者カードを引きました");
-
-        med.SendToAll("TXT","結果は以下の通りです");
+        med.SendToAll("TXT","両者カードを引きました。結果は以下の通りです。");
         
         Result();
 
@@ -90,10 +98,10 @@ public class GameRoom {
         int drawCard = deck.DrawACard();
         if(sOrc == 's'){
             sHands.SetHands(drawCard);
-            med.SendToServer("TXT", "あなたが引いたカードは"+ToAJQK(drawCard)+"です。");
+            med.SendToServer("TXT", sName+"が引いたカードは"+ToAJQK(drawCard)+"です。");
         }else if(sOrc == 'c'){
             cHands.SetHands(drawCard);
-            med.SendToClient("TXT", "あなたが引いたカードは"+ToAJQK(drawCard)+"です。");
+            med.SendToClient("TXT", cName+"が引いたカードは"+ToAJQK(drawCard)+"です。");
         }else{
             System.out.println("error:sOrcの値が"+sOrc+"です");
         }
@@ -129,16 +137,19 @@ public class GameRoom {
 
     public void CheckCard(char sOrc){
         int[] hands = new int[15];
+        String ret = "";
+
         if(sOrc == 's'){
             hands = sHands.GetHands();
+            ret = ret + sName +"の手札は";
         }else if(sOrc == 'c'){
             hands = cHands.GetHands();
+            ret = ret + cName +"の手札は";
         }else{
             System.out.println("error:sOrcの値が"+sOrc+"です");
         }
 
-        String ret = "あなたの手札は";
-       
+        
    
         //System.out.println("test:hands.lengthは"+hands.length);
         if(hands.length == 0){
@@ -193,14 +204,14 @@ public class GameRoom {
         //System.out.println("test:resultは"+result);
 
         //結果の送信
-        med.SendToAll("TXT", "親の手札は" + ToAJQKStr(sHands.GetHands())+" 合計は"+sSum);
-        med.SendToAll("TXT", "子の手札は" + ToAJQKStr(cHands.GetHands())+" 合計は"+cSum);
+        med.SendToAll("TXT", sName+"の手札は" + ToAJQKStr(sHands.GetHands())+" 合計は"+sSum);
+        med.SendToAll("TXT", cName+"の手札は" + ToAJQKStr(cHands.GetHands())+" 合計は"+cSum);
         if(result == DRAW){
             med.SendToAll("TXT", "よって、引き分けです。");
         }else if(result == SWIN){
-            med.SendToAll("TXT", "親の勝ちです。");
+            med.SendToAll("TXT", sName+"の勝ちです。");
         }else if(result == CWIN){
-            med.SendToAll("TXT", "子の勝ちです。");
+            med.SendToAll("TXT", cName+"の勝ちです。");
         }else{
             System.out.println("error:resultの条件分岐を確認してください");
         }

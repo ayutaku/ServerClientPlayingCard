@@ -1,12 +1,15 @@
 import java.io.*;
 import java.net.*;
 public class JabberClient extends Connector{
-    public static final int PORT = 8080; // ポート番号を設定する．
+    //public static final int PORT = 8080; // ポート番号を設定する．
     private BufferedReader in;
     private PrintWriter out;
     //private ServerSocket s;
     private Socket socket;
     
+    JabberClient(int portN){
+        super(portN);
+    }
 
  public void StartConnect()
  throws IOException {

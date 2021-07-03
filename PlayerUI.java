@@ -61,9 +61,13 @@ public class PlayerUI {
         return CheckAns(ansStr.charAt(0), ansData);
     }
 
-    
+    public String GetSCStr(){
+        String ret = sc.next();
+        System.out.println();
+        return ret;
+    }
 
-
+    //GameRoomで処理するため使わなくなった
     /*public void PrintHand(int[] hands){
         System.out.print("あなたの手札は");
         if(hands.length == 0){

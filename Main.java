@@ -2,6 +2,8 @@ public class Main {
 
     public static void main(String[] args){
         Mediator med = new Mediator();
+        med.SetNickName();
+        med.SetPortN();
         med.StartConnection();//コネクション確立する
         //System.out.println("test:コネクション確立！");
 
