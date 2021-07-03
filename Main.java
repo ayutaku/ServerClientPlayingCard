@@ -21,7 +21,7 @@ public class Main {
             System.out.println("error:私はサーバーでもクライアントでもありません");
         }
 
-        med.Close();//"END"を受け取った時にもcloseはしているが一応ここでもcloseする
+        //med.Close();//"END"を受け取った時にcloseしているのでコメントアウト
      
     }
 

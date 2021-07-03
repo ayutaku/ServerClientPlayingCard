@@ -65,7 +65,7 @@ public class GameRoom {
 
             ansMesCh =ansMes.txt.charAt(0);
             if(ansMesCh == 'y'){
-                System.out.println("test:カードを引く処理");
+                //System.out.println("test:カードを引く処理");
                 //カードを引いて、引いたカードを送る
                 DrawACard(sOrc);
 
@@ -73,10 +73,10 @@ public class GameRoom {
                 break;//カードを引くのをやめる
             }else if(ansMesCh == 'c'){
                 //持っているカード見せる処理。
-                System.out.println("test:カードを確認する処理");
+                //System.out.println("test:カードを確認する処理");
                 CheckCard(sOrc);
             }else{
-                System.out.println("ansMesChの値が"+ansMesCh+"です");
+                System.out.println("error:ansMesChの値が"+ansMesCh+"です");
             }
         }
         
@@ -140,14 +140,11 @@ public class GameRoom {
         String ret = "あなたの手札は";
        
    
-        System.out.println("test:hands.lengthは"+hands.length);
+        //System.out.println("test:hands.lengthは"+hands.length);
         if(hands.length == 0){
             ret = ret + "ありません。カードを引きましょう。";
         }else{
-            /*for(int i = 0 ; i < hands.length; i++){
-               ret = ret + ToAJQK(hands[i]) + " ";
-                
-            }*/
+            
             ret = ret + ToAJQKStr(hands);
             ret = ret + "です。";
         }
@@ -163,11 +160,6 @@ public class GameRoom {
        
     }
 
-    
-
-
-    
-  
 
     public void Result(){
         //ここに結果の演算を書く
@@ -198,7 +190,7 @@ public class GameRoom {
             System.out.println("error:勝敗を決められません。条件分岐を確認してください");
         }
 
-        System.out.println("test:resultは"+result);
+        //System.out.println("test:resultは"+result);
 
         //結果の送信
         med.SendToAll("TXT", "親の手札は" + ToAJQKStr(sHands.GetHands())+" 合計は"+sSum);

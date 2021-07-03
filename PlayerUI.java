@@ -14,7 +14,7 @@ public class PlayerUI {
    
 
     public void EndGame(){//最後にこれを呼び出す
-        Println("ゲームを終了します。");
+        
         //ここでscをクローズ
         sc.close();
 
@@ -24,6 +24,7 @@ public class PlayerUI {
     public void Println(String text){
         //将来UI変更することがあるかもしれないので一応
         System.out.println(text);
+        System.out.println();//見づらいので一行余分に開ける
     }
 
     public char QA(String question, char[] ansData){
@@ -31,9 +32,9 @@ public class PlayerUI {
         //Scanner sc = new Scanner(System.in);
         System.out.println(question);
         String ansStr =sc.next();
-        System.out.println(ansStr+"が入力されました");
+        //System.out.println(ansStr+"が入力されました");
         //sc.close();//プログラムの途中でcloseすると、System.in自体がとじてしまい、そのあとscanできなくなる
-        
+        System.out.println();//改行を入れたい
 
         
         int returnN = CheckAns(ansStr.charAt(0), ansData);//charAt(x)でx番目の文字をcharで返す
@@ -44,7 +45,7 @@ public class PlayerUI {
         for(int i = 0; i<ansData.length;i++){
             //System.out.println(ansData.length);
             if(playerAns==ansData[i] ){
-                System.out.println(playerAns);
+                //System.out.println(playerAns);
                 return i;
             }
         }
@@ -63,7 +64,7 @@ public class PlayerUI {
     
 
 
-    public void PrintHand(int[] hands){
+    /*public void PrintHand(int[] hands){
         System.out.print("あなたの手札は");
         if(hands.length == 0){
             System.out.println("ありません。");
@@ -92,6 +93,6 @@ public class PlayerUI {
         }
        
        
-    }
+    }*/
 
 }

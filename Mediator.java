@@ -11,11 +11,13 @@ public class Mediator {
         info = new PlayerInfo();
     }
 
+    
+
     public void StartConnection(){
         ui.Println("これから15点のゲームを初めます");
         char[] ansData = {'b','s'};
         char ans = ui.QA("対戦部屋を作りますか？探しますか？\n対戦部屋を作る(build)場合は「b」、探す(search)場合は「s」と入力してください。",ansData);
-        System.out.println("test:"+ans);
+       
         SetConnection(ans);
     }
 

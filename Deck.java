@@ -7,8 +7,6 @@ public class Deck {
     private int[] deck = new int[13*4];
     private int cardN = 0;
 
-    
-
     Deck(){
         FirstSet();
         //Test();

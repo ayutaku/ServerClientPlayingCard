@@ -7,17 +7,6 @@ private PrintWriter out;
 private ServerSocket s;
 private Socket socket;
 
-    /*JabberServer(){
-        System.out.println("Server起動");
-        try{
-            StartConnect();
-        }catch(IOException e){
-            System.out.println(e);
-        }
-    
-    }*/
-
-    //public static void main(String[] args)
 
     //継承元のConnectorのコンストラクタで↓が呼ばれている
     @Override
@@ -49,13 +38,13 @@ private Socket socket;
  out.println(str); // データの送信
  }*/
 
-String str = in.readLine();
+/*String str = in.readLine();
 System.out.println(str);
  out.println(str); // データの送信
  str = in.readLine(); // データの受信
  if(str.equals("END")){
      System.out.println(str);
- }
+ }*/
 
  } finally {
      //もしソケットの確立が正常でなくtry文の途中で終了した場合はソケットを閉じる
@@ -69,10 +58,10 @@ System.out.println(str);
  } finally {
      if(!socketConnect){
         s.close();
-     }else{
+     }/*else{
         System.out.println("else文にいる");
         //Close();
-     }
+     }*/
  
  }
  }
@@ -81,9 +70,9 @@ System.out.println(str);
  public void Send(Message mes){
      
     out.println(mes.type);
-    System.out.println("test:送ったのは"+mes.type);
+    //System.out.println("test:送ったのは"+mes.type);
     out.println(mes.txt);
-    System.out.println("test:送ったのは"+mes.txt);
+    //System.out.println("test:送ったのは"+mes.txt);
 
     //BufferReaderではchar[]を読み込めないため、stringにして送る
     String ansStr="";
@@ -91,14 +80,14 @@ System.out.println(str);
         ansStr = ansStr + mes.ansData[i];
     }
     out.println(ansStr);
-    System.out.println("test:送ったのは"+ansStr);
+    //System.out.println("test:送ったのは"+ansStr);
     
  }
 
  @Override
  public Message Wait(){
      Message mes = new Message();
-     System.out.println("test:wait内");
+     
      try{
         mes.type = in.readLine();
         mes.txt = in.readLine();

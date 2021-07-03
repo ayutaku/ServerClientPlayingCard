@@ -7,7 +7,7 @@ public class JabberClient extends Connector{
     //private ServerSocket s;
     private Socket socket;
     
- //public static void main(String[] args)
+
  public void StartConnect()
  throws IOException {
     boolean socketConnect = false;
@@ -31,11 +31,11 @@ public class JabberClient extends Connector{
 
  socketConnect = true;
  
- out.println("コネクション確立のテスト"); // データ送信
+ /*out.println("コネクション確立のテスト"); // データ送信
  String str = in.readLine(); // データ受信
  System.out.println(str);
  
- out.println("END");
+ out.println("END");*/
 
 
 
@@ -44,10 +44,10 @@ public class JabberClient extends Connector{
      if(!socketConnect){
         System.out.println("closing...");
         socket.close();
-     }else{
-        System.out.println("else文にいる");
+     }/*else{
+        //System.out.println("else文にいる");
         //Close();
-     }
+     }*/
  
  }
  }
@@ -56,9 +56,9 @@ public class JabberClient extends Connector{
  public void Send(Message mes){
      
     out.println(mes.type);
-    System.out.println("test:送ったのは"+mes.type);
+    //System.out.println("test:送ったのは"+mes.type);
     out.println(mes.txt);
-    System.out.println("test:送ったのは"+mes.txt);
+    //System.out.println("test:送ったのは"+mes.txt);
 
     //BufferReaderではchar[]を読み込めないため、stringにして送る
     String ansStr="";
@@ -66,14 +66,14 @@ public class JabberClient extends Connector{
         ansStr = ansStr + mes.ansData[i];
     }
     out.println(ansStr);
-    System.out.println("test:送ったのは"+ansStr);
+    //System.out.println("test:送ったのは"+ansStr);
     
  }
 
  @Override
  public Message Wait(){
      Message mes = new Message();
-     System.out.println("test:wait内");
+     
      try{
         mes.type = in.readLine();
         mes.txt = in.readLine();
@@ -97,7 +97,6 @@ public class JabberClient extends Connector{
  public void Close() {
     System.out.println("closing...");
     try{
-        System.out.println("Close()内");
         socket.close();
         
     }catch(IOException e){
