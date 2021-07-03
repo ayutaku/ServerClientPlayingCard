@@ -4,8 +4,6 @@ public class Hand {
     private int[] hands = new int[15];//15枚以上はとらないという設定（後で16枚以上の処理を書く）
     private int myHandsN = 0;//現在の手札の枚数
 
-    
-
     public void SetHands(int cardN){
         hands[myHandsN] = cardN;
         myHandsN++;

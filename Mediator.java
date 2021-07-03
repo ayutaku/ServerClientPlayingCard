@@ -1,5 +1,3 @@
-import java.net.ConnectException;
-
 public class Mediator {
     //Mediatorは日本語で仲介者
     PlayerUI ui;
@@ -11,9 +9,6 @@ public class Mediator {
     Mediator(){
         ui = new PlayerUI();
         info = new PlayerInfo();
-
-       
-       
     }
 
     public void StartConnection(){
@@ -22,18 +17,16 @@ public class Mediator {
         char ans = ui.QA("対戦部屋を作りますか？探しますか？\n対戦部屋を作る(build)場合は「b」、探す(search)場合は「s」と入力してください。",ansData);
         System.out.println("test:"+ans);
         SetConnection(ans);
-       
     }
 
     public void SetConnection(char makeSearch){
-
         if(makeSearch == 'b'){
-            //server
+            //Server側を選択
             connect = new JabberServer();
             info.SetIAm('s');
             
         }else if(makeSearch == 's'){
-            //client
+            //Client側を選択
             connect = new JabberClient();
             info.SetIAm('c');
 
@@ -42,24 +35,19 @@ public class Mediator {
         }
     }
 
+    //クライアントの場合はサーバーからの応答を待つ
     public void StartClientWait(){
         Message mes = new Message();
         while(true){
-            
             mes = connect.Wait();
             if(mes !=null){
-                 //mesの種類を確認する処理
-                GetMessage(mes);
-                 //ui.Println(mes.txt);
-                    //System.out.println("test:戻り値のmes"+mes);
+                GetMessage(mes);//自分当てのMessageを受け取った時に、mesの種類を確認し、適切な処理を行う関数
+
                 if(mes.type.equals("END")){
                     //javaでのstringの比較は==ではなく.equals(==はアドレスの比較になる)
-                    //System.out.println("test:break");
                     break;
                 }
             }
-           
-
         }
     }
 
@@ -69,18 +57,32 @@ public class Mediator {
         connect.Close();
     }
 
-    /*//これならPlayerInfoでstatic宣言の方がいいのかなー？
-    //med.info.GetIAm();で取得できるのでコメントアウト
-    public char GetIAm(){
-        return info.GetIAm();
-    }*/
+    //自分当てのMessageを受け取った時に、mesの種類を確認し、適切な処理を行う関数
+    public void GetMessage(Message mes){
+        switch(mes.type){
+            case "TXT":
+                ui.Println(mes.txt);
+                break;
+            case "QUE":
+                char ans = ui.QA(mes.txt, mes.ansData);
+                SendToServer("ANS", String.valueOf(ans));//Serverに送るというよりもGameRoomに送るという感覚
 
+                break;
+            case "ANS":
+                answerMessage = mes;
+                break;
+            case "END":
+                Close();
+                break;
+            default:
+                System.out.println("error:mesのtypeが"+mes.type+"です。GetMessage()のswitch文を確認してください");
+        }
+    }
 
-    //ここからは通信についての処理
+    //ここから先は通信の送受信についての関数群
+
     public void SendToAll(String type, String txt){
-        System.out.println("test:全員へ");
-        //System.out.println(text);
-        //ui.Println(text);
+        //System.out.println("test:全員へ");
         char[] x = {'x'};//数合わせ
         SendToServer(type,txt,x);
         SendToClient(type,txt,x);
@@ -89,9 +91,7 @@ public class Mediator {
 
    
     public void SendToAll(String type, String txt,char[] ansData){
-        System.out.println("test:全員へ");
-        //System.out.println(text);
-        //ui.Println(text);
+        //System.out.println("test:全員へ");
         SendToServer(type,txt,ansData);
         SendToClient(type,txt,ansData);
 
@@ -104,24 +104,20 @@ public class Mediator {
 
     
     public void SendToServer(String type, String txt,char[] ansData){
-        System.out.println("test:Serverへ");
-        //System.out.println(text);
+        //System.out.println("test:Serverへ");
         Message mes = new Message();
         mes.type = type;
         mes.txt = txt;
         mes.ansData = ansData;
         
         if(info.GetIAm()=='s'){
-            //表示の仕方
-           System.out.println("test:ここは通った");
-            GetMessage(mes);
+            //自分自身がサーバーで、サーバー宛にmesを送る→自分当てのmesを受け取ったと解釈
+            GetMessage(mes);//自分当てのMessageを受け取った時に、mesの種類を確認し、適切な処理を行う関数
         }else if (info.GetIAm()=='c'){
             connect.Send(mes);
-
         }else{
             System.out.println("error:iAmがs,cではありません");
         }
-        
     }
 
     public void SendToClient(String type, String txt){
@@ -129,22 +125,21 @@ public class Mediator {
         SendToClient(type, txt, x);
     }
 
-   
+
+   //SendToServer()と同じようなコードなので、SendToServer()を参照してください
+   //同じようなコードなら、そもそも関数名でServerかClientかを判断するのでなく、引数でServerかClientかを判断できるようにするべきだった...
     public void SendToClient(String type, String txt,char[] ansData){
-        System.out.println("test:Clientへ");
+        //System.out.println("test:Clientへ");
         Message mes = new Message();
         mes.type = type;
         mes.txt = txt;
         mes.ansData = ansData;
 
-        //System.out.println(text);
-        //clientへ送信する処理
         if(info.GetIAm()=='s'){
             connect.Send(mes);
             
         }else if (info.GetIAm()=='c'){
-            //表示の関数が必要
-            
+        
             GetMessage(mes);
         }else{
             System.out.println("error:iAmがs,cではありません");
@@ -152,14 +147,16 @@ public class Mediator {
         
     }
 
+    //異なるmesを同時に送る時に使おうと思っていたが、結局使わなかったのでコメントアウト
    /* public void DiffSendToSC(Message serverMes,Message crientMes){
         SendToServer(serverMes);
         SendToClient(crientMes);
     }*/
 
-
-
+    //ANSのmessageを受け取った時に、その内容を取得するために呼び出す
+    //Server側が使う前提で作ってあるので、Client側で使う場合は拡張が必要
     public Message GetAnserMessage(char fromSOrc){
+
         //clientからの時はwaitを呼び出す必要がある
         if(fromSOrc == 'c'){
             WaitServer();
@@ -168,12 +165,12 @@ public class Mediator {
         return answerMessage;
     }
 
-    public Message Wait(/*String text, */char sOrc){
+    public Message Wait(char sOrc){
         Message retMes;
         if(sOrc=='s'){
-            retMes = WaitServer(/*text*/);
+            retMes = WaitServer();
         }else if(sOrc=='c'){
-            retMes = WaitCLient(/*text*/);
+            retMes = WaitCLient();
         }else{
             System.out.println("エラー:sOrcの値が"+sOrc+"です。");
             retMes = new Message();
@@ -183,10 +180,8 @@ public class Mediator {
         return retMes;
     }
 
-    public Message WaitServer(/*String text*/){
-        System.out.println("test:ServerへWait命令");
-        
-
+    public Message WaitServer(){
+       // System.out.println("test:ServerへWait命令");
         Message retMes;
 
         if(info.GetIAm()=='s'){
@@ -202,20 +197,14 @@ public class Mediator {
             retMes = new Message();
             retMes.txt = "error";
         }
-        /*try{
-            Thread.sleep(10000);
-        }catch(InterruptedException e){
-            System.out.println(e);
-        }*/
+        
         return retMes;
     }
 
-    public Message WaitCLient(/*String text*/){
-        System.out.println("test:ClientへWait命令");
+    public Message WaitCLient(){
+        //System.out.println("test:ClientへWait命令");
        
         Message retMes;
-
-        
 
         if(info.GetIAm()=='s'){
            //サーバーからクライアントへ待機命令
@@ -232,45 +221,18 @@ public class Mediator {
             retMes = new Message();
             retMes.txt = "error";
         }
-        /*try{
-            Thread.sleep(10000);
-        }catch(InterruptedException e){
-            System.out.println(e);
-        }*/
-     
+       
         return retMes;
     }
 
     public void End(){
-        //end処理は特別扱い
-        System.out.println("test:end処理");
-        
+        //end処理は特別扱い。これはENDを送信するためのコード
+        //System.out.println("test:end処理");
         SendToClient("END","-1");
+        SendToServer("END","-1");
     }
 
-    //自分当てのmesを受け取った時に使う関数
-    public void GetMessage(Message mes){
-        switch(mes.type){
-            case "TXT":
-                ui.Println(mes.txt);
-                break;
-            case "QUE":
-                char ans = ui.QA(mes.txt, mes.ansData);
-                SendToServer("ANS", String.valueOf(ans));//Serverに送るというよりもGameRoomに送るという感覚
-
-                break;
-            case "ANS":
-                //ANSが送られて来るのはServerだけの前提。Client側ではGameRoomをインスタンス化していないのでエラーになる
-                System.out.println("test:ANSのmesが送られて来ました");
-                answerMessage = mes;
-                break;
-            case "END":
-                Close();
-                break;
-            default:
-                System.out.println("error:mesのtypeが"+mes.type+"です。GetMessageのswitch文を確認してください");
-        }
-    }
+    
 
     
 }

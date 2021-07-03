@@ -1,35 +1,29 @@
 public class GameRoom {
     Deck deck;
-    //ConnectionManager conM;
     Mediator med;
 
-    private Hand sHands;// = new Hand();
-    private Hand cHands;// = new Hand();
+    private Hand sHands;
+    private Hand cHands;
 
 
     GameRoom(Mediator argMed){
         deck = new Deck();
-        //conM = new ConnectionManager();
         med = argMed;
-
-        System.out.print("test:GameRoomのコンストラクタ内");
-        
-        GameStart();
     }
 
     public void GameStart(){
-        //Message mes = new Message();
+        
         sHands = new Hand();
         cHands = new Hand();
-        System.out.println("GameRoomのGameStart()");
+ 
         med.SendToAll("TXT","これから15点のゲームを始めます。15点は子→親の順にトランプを任意の数だけ引き、15点に近い人が勝利するゲームです。尚、15点を超えた場合は負けとなります。両者とも15点を超えるか、同じ点数の場合は引き分けです。");
         med.SendToAll("TXT","まずは子からカードを引きます");
 
-        DrawPhase('c');
+        DrawPhase('c');//クライアントのドローフェーズ
 
         med.SendToAll("TXT","次に親がカードを引きます");
 
-        DrawPhase('s');
+        DrawPhase('s');//サーバーのドローフェーズ
 
         med.SendToAll("TXT","両者カードを引きました");
 
@@ -37,24 +31,7 @@ public class GameRoom {
         
         Result();
 
-        //この辺は関数で呼び出し
-        /*String cReturn = med.Wait("カードを引いてください",'c');
-        String sReturn = med.Wait("対戦相手がカードを引いています",'s');
-
-        System.out.println(cReturn);
-        System.out.println(sReturn);
-
-        med.TextToAll("次に親がカードを引きます");
-        cReturn = med.WaitCLient("対戦相手がカードを引いています");
-        sReturn = med.WaitServer("カードを引いてください");
-
-        System.out.println(cReturn);
-        System.out.println(sReturn);
-
-        med.TextToAll("両者カードを引きました");
-        med.TextToAll("結果は以下の通りです\n");
-
-        Result();*/
+        
         if(OneMore()){
             med.SendToAll("TXT", "もう一度ゲームを始めます。尚、山札はシャッフルされません");
             GameStart();
@@ -63,9 +40,6 @@ public class GameRoom {
             med.End();
         }
 
-        //test
-        //med.End();
-        
 
     }
 
@@ -140,6 +114,19 @@ public class GameRoom {
         }
     }
 
+    public String ToAJQKStr(int[] hands){
+        String ret = "";
+        for(int i = 0 ; i < hands.length; i++){
+            ret = ret + ToAJQK(hands[i]); 
+            if(i < hands.length-1){
+                ret = ret + " ";
+            }
+        }
+        
+         return ret;
+    }
+
+
     public void CheckCard(char sOrc){
         int[] hands = new int[15];
         if(sOrc == 's'){
@@ -176,17 +163,7 @@ public class GameRoom {
        
     }
 
-    public String ToAJQKStr(int[] hands){
-        String ret = "";
-        for(int i = 0 ; i < hands.length; i++){
-            ret = ret + ToAJQK(hands[i]) + " ";
-             
-         }
-         
-         return ret;
-
-    }
-
+    
 
 
     
@@ -240,7 +217,7 @@ public class GameRoom {
     }
 
     public Boolean OneMore(){
-        String q = "もう一度対戦しますか？";
+        String q = "もう一度対戦しますか？対戦する場合は「y」、しない場合は「n」を入力してください";
         char[] ansData = {'y','n'};
         med.SendToServer("QUE",q,ansData);
 
