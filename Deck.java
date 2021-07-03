@@ -49,7 +49,7 @@ public class Deck {
         }
     }
 
-    public int GetACard(){
+    public int DrawACard(){
         cardN++;//次のカードを指し示すようにする
         if(cardN>= 13*4){
             System.out.println("山札のカードがすべてなくなりました。");
