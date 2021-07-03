@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class PlayerUI {
   
@@ -55,7 +56,7 @@ public class PlayerUI {
         Println("エラーです。もう一度入力してください。");
         //Scanner sc = new Scanner(System.in);
         String ansStr =sc.next();
-        System.out.println(ansStr+"が入力されました");
+        //System.out.println(ansStr+"が入力されました");
         //sc.close();
     
         return CheckAns(ansStr.charAt(0), ansData);
@@ -66,6 +67,18 @@ public class PlayerUI {
         System.out.println();
         return ret;
     }
+
+    /*public int GetSCInt(){
+        try{
+            int ret = sc.nextInt();
+            System.out.println();
+            return ret;
+        }catch(InputMismatchException e){
+            Println("整数を入力してください。");
+           
+        }
+        return -1;
+    }*/
 
     //GameRoomで処理するため使わなくなった
     /*public void PrintHand(int[] hands){

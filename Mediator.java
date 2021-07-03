@@ -17,14 +17,27 @@ public class Mediator {
         ui.Println("これから15点のゲームを始めます。まずはあなたのニックネームを教えてください。(半角英数字のみでお願いします)");
         String name = ui.GetSCStr();
         info.SetNickName(name);
+        ui.Println(name+"さん、こんにちは!");
     }
 
     public void SetPortN(){
-        ui.Println("次にポート番号を入力してください");
-        String portNStr = ui.GetSCStr();
+        ui.Println("ポート番号を入力してください");
 
-        //port番号が不適合の場合の処理
-        portN = Integer.parseInt(portNStr);
+        String portNStr = ui.GetSCStr();
+        try{
+            int portN = Integer.parseInt(portNStr);
+            //port番号が不適合の場合の処理
+            if(portN<0||65535<portN){
+                ui.Println("ポート番号は0-65535の範囲で指定してください");
+                SetPortN();
+            }
+        }catch(NumberFormatException e){
+            ui.Println("整数を入力してください");
+            SetPortN();
+        }
+        
+
+        
     }
 
     public void StartConnection(){

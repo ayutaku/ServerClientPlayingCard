@@ -1,5 +1,3 @@
-import java.util.Arrays; 
-
 public class PlayerInfo {
     //もともとはplayerInfoで手札を管理する予定だったが、GameRoomで一括管理に変更した
     //private static int[] hands = new int[15];//15枚以上はとらないという設定（後で16枚以上の処理を書く）
