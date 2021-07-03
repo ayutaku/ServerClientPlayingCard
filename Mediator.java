@@ -25,7 +25,7 @@ public class Mediator {
 
         String portNStr = ui.GetSCStr();
         try{
-            int portN = Integer.parseInt(portNStr);
+            portN = Integer.parseInt(portNStr);
             //port番号が不適合の場合の処理
             if(portN<0||65535<portN){
                 ui.Println("ポート番号は0-65535の範囲で指定してください");

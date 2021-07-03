@@ -87,7 +87,15 @@ public class GameRoom {
                 System.out.println("error:ansMesChの値が"+ansMesCh+"です");
             }
         }
-        
+
+        if(sOrc == 's'){
+            med.SendToClient("TXT", sName+"はカードを合計"+sHands.GetMyHandN()+"枚ひきました。");
+        }else if(sOrc == 'c'){
+            med.SendToServer("TXT", cName+"はカードを合計"+cHands.GetMyHandN()+"枚ひきました。");
+        }else{
+            System.out.println("error:sOrcの値が"+sOrc+"です");
+        }
+       
         
 
     }
@@ -99,9 +107,11 @@ public class GameRoom {
         if(sOrc == 's'){
             sHands.SetHands(drawCard);
             med.SendToServer("TXT", sName+"が引いたカードは"+ToAJQK(drawCard)+"です。");
+            med.SendToClient("TXT", sName+"がカードを1枚引きました");
         }else if(sOrc == 'c'){
             cHands.SetHands(drawCard);
             med.SendToClient("TXT", cName+"が引いたカードは"+ToAJQK(drawCard)+"です。");
+            med.SendToServer("TXT", cName+"がカードを1枚引きました");
         }else{
             System.out.println("error:sOrcの値が"+sOrc+"です");
         }

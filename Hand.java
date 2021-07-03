@@ -15,6 +15,10 @@ public class Hand {
         return ret;
     }
 
+    public int GetMyHandN(){
+        return myHandsN;
+    }
+
     public int GetSum(){
         int sum = 0;
         for(int i = 0 ; i < hands.length; i++){
