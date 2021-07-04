@@ -5,19 +5,18 @@ public class Main {
         med.SetNickName();
         med.SetPortN();
         med.StartConnection();//コネクション確立する
-        //System.out.println("test:コネクション確立！");
 
         //サーバーかクライアントかで処理が変わる
         //サーバーの場合はGameRoomをインスタンス化し、GameStart()に進行が移る
         //クライアントの場合はサーバーでインスタンス化されたGameRoomからの応答を待つ
         if(med.info.GetIAm() == 's'){
-            //System.out.println("test:私はサーバー");
+            //Server
             //ここからの進行はGameRoomに移します。GameRoom.javaのGameStart()を参照してください
             GameRoom gr = new GameRoom(med);
             gr.GameStart();
 
         }else if(med.info.GetIAm()=='c'){
-            //System.out.println("test:私はクライアント");
+            //Client
             med.StartClientWait();
         }else{
             System.out.println("error:私はサーバーでもクライアントでもありません");

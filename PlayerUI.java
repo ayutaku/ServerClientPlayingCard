@@ -9,36 +9,25 @@ public class PlayerUI {
         sc = new Scanner(System.in);
     }
 
-   
-
-    public void EndGame(){//最後にこれを呼び出す
-        
-        //ここでscをクローズ
-        sc.close();
-
-
-    }
     
     public void Println(String text){
-        //将来UI変更することがあるかもしれないので一応
+        //将来UI変更するため
         System.out.println(text);
         System.out.println();//見づらいので一行余分に開ける
     }
 
     public char QA(String question, char[] ansData){
-        //毎回scをnewするのは冗長かもしれないが、static宣言の関係で現状このように書いている
-        //Scanner sc = new Scanner(System.in);
         System.out.println(question);
         String ansStr =sc.next();
-        //System.out.println(ansStr+"が入力されました");
-        //sc.close();//プログラムの途中でcloseすると、System.in自体がとじてしまい、そのあとscanできなくなる
-        System.out.println();//改行を入れたい
+        
+        System.out.println();//改行を入れた
 
         
         int returnN = CheckAns(ansStr.charAt(0), ansData);//charAt(x)でx番目の文字をcharで返す
         return ansData[returnN];
     }
 
+    //入力された文字が適切かを判断する関数
     private int CheckAns(char playerAns ,char[] ansData){
         for(int i = 0; i<ansData.length;i++){
             //System.out.println(ansData.length);
@@ -47,15 +36,9 @@ public class PlayerUI {
                 return i;
             }
         }
-
-       
-
         Println("エラーです。もう一度入力してください。");
-        //Scanner sc = new Scanner(System.in);
         String ansStr =sc.next();
-        //System.out.println(ansStr+"が入力されました");
-        //sc.close();
-    
+     
         return CheckAns(ansStr.charAt(0), ansData);
     }
 
@@ -65,19 +48,15 @@ public class PlayerUI {
         return ret;
     }
 
-    /*public int GetSCInt(){
-        try{
-            int ret = sc.nextInt();
-            System.out.println();
-            return ret;
-        }catch(InputMismatchException e){
-            Println("整数を入力してください。");
-           
-        }
-        return -1;
-    }*/
+    //最後にこれを呼び出す
+    public void EndGame(){
+        //ここでscをクローズ
+        sc.close();
+    }
 
-    //GameRoomで処理するため使わなくなった
+   
+
+    //GameRoomで処理するため使わなくなった。1,11,12,13をA,J,Q,Kに変換する関数
     /*public void PrintHand(int[] hands){
         System.out.print("あなたの手札は");
         if(hands.length == 0){

@@ -75,7 +75,6 @@ public class GameRoom {
 
             ansMesCh =ansMes.txt.charAt(0);
             if(ansMesCh == 'y'){
-                //System.out.println("test:カードを引く処理");
                 //カードを引いて、引いたカードを送る
                 DrawACard(sOrc);
 
@@ -83,7 +82,6 @@ public class GameRoom {
                 break;//カードを引くのをやめる
             }else if(ansMesCh == 'c'){
                 //持っているカード見せる処理。
-                //System.out.println("test:カードを確認する処理");
                 CheckCard(sOrc);
             }else{
                 System.out.println("error:ansMesChの値が"+ansMesCh+"です");
@@ -161,9 +159,7 @@ public class GameRoom {
             System.out.println("error:sOrcの値が"+sOrc+"です");
         }
 
-        
-   
-        //System.out.println("test:hands.lengthは"+hands.length);
+    
         if(hands.length == 0){
             ret = ret + "ありません。カードを引きましょう。";
         }else{
@@ -213,7 +209,7 @@ public class GameRoom {
             System.out.println("error:勝敗を決められません。条件分岐を確認してください");
         }
 
-        //System.out.println("test:resultは"+result);
+      
 
         //結果の送信
         med.SendToAll("TXT", sName+"の手札は" + ToAJQKStr(sHands.GetHands())+" 合計は"+sSum);

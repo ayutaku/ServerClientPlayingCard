@@ -34,13 +34,6 @@ public class JabberClient extends Connector{
 
  socketConnect = true;
  
- /*out.println("コネクション確立のテスト"); // データ送信
- String str = in.readLine(); // データ受信
- System.out.println(str);
- 
- out.println("END");*/
-
-
 
  
  } finally {

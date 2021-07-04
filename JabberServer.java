@@ -33,24 +33,11 @@ private Socket socket;
  socket.getOutputStream())), true); // 送信バッファ設定
 
  socketConnect = true;
- /*while (true) {
- String str = in.readLine(); // データの受信
- if(str.equals("END")) break;
- System.out.println(str);
- out.println(str); // データの送信
- }*/
 
-/*String str = in.readLine();
-System.out.println(str);
- out.println(str); // データの送信
- str = in.readLine(); // データの受信
- if(str.equals("END")){
-     System.out.println(str);
- }*/
 
  } finally {
      //もしソケットの確立が正常でなくtry文の途中で終了した場合はソケットを閉じる
-     //この文は本当に必要か？
+    
      if(!socketConnect){
         //System.out.println("closing...");
         socket.close();
@@ -60,11 +47,7 @@ System.out.println(str);
  } finally {
      if(!socketConnect){
         s.close();
-     }/*else{
-        System.out.println("else文にいる");
-        //Close();
-     }*/
- 
+     }
  }
  }
 
@@ -110,7 +93,7 @@ System.out.println(str);
     
  }
 
- //Closeしない限り通信可能なはず
+ 
  @Override
  public void Close() {
     //System.out.println("closing...");
