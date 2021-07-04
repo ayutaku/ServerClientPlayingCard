@@ -1,6 +1,5 @@
 import java.io.IOException;
 
-
 public abstract class Connector {
     public final int PORT;
     Connector(){
@@ -26,7 +25,6 @@ public abstract class Connector {
     }
 
     protected abstract void StartConnect() throws IOException;
-
 
     public abstract void Send(Message mes);
     public abstract Message Wait();

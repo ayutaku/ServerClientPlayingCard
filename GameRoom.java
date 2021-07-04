@@ -13,6 +13,8 @@ public class GameRoom {
         deck = new Deck();
         med = argMed;
         SetName();
+        med.SendToServer("TXT", "対戦相手は"+cName+"です。");
+        med.SendToClient("TXT", "対戦相手は"+sName+"です。");
     }
 
     public void SetName(){

@@ -16,11 +16,11 @@ public class JabberClient extends Connector{
     boolean socketConnect = false;
  InetAddress addr =
  InetAddress.getByName("localhost"); // IP アドレスへの変換
- System.out.println("addr = " + addr);
+ //System.out.println("addr = " + addr);
  socket =
  new Socket(addr, PORT); // ソケットの生成
  try {
- System.out.println("socket = " + socket);
+ //System.out.println("socket = " + socket);
   in = 
  new BufferedReader(
  new InputStreamReader(
@@ -45,12 +45,9 @@ public class JabberClient extends Connector{
  
  } finally {
      if(!socketConnect){
-        System.out.println("closing...");
+        //System.out.println("closing...");
         socket.close();
-     }/*else{
-        //System.out.println("else文にいる");
-        //Close();
-     }*/
+     }
  
  }
  }
@@ -97,8 +94,9 @@ public class JabberClient extends Connector{
     
  }
 
+ @Override
  public void Close() {
-    System.out.println("closing...");
+    //System.out.println("closing...");
     try{
         socket.close();
         

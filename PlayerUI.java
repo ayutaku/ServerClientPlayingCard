@@ -3,9 +3,7 @@ import java.util.Scanner;
 public class PlayerUI {
   
     Scanner sc;
-    public static void main(String[] args){
-       
-    }
+
 
     PlayerUI(){
         sc = new Scanner(System.in);
@@ -41,7 +39,7 @@ public class PlayerUI {
         return ansData[returnN];
     }
 
-    public int CheckAns(char playerAns ,char[] ansData){
+    private int CheckAns(char playerAns ,char[] ansData){
         for(int i = 0; i<ansData.length;i++){
             //System.out.println(ansData.length);
             if(playerAns==ansData[i] ){

@@ -45,6 +45,7 @@ public class Mediator {
         char[] ansData = {'b','s'};
         char ans = ui.QA("対戦部屋を作りますか？探しますか？\n対戦部屋を作る(build)場合は「b」、探す(search)場合は「s」と入力してください。",ansData);
        
+        ui.Println("通信を開始します。");
         SetConnection(ans);
     }
 
@@ -95,7 +96,6 @@ public class Mediator {
             case "QUE":
                 char ans = ui.QA(mes.txt, mes.ansData);
                 SendToServer("ANS", String.valueOf(ans));//Serverに送るというよりもGameRoomに送るという感覚
-
                 break;
             case "NAM":
                 //ニックネーム取得処理

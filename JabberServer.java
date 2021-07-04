@@ -17,12 +17,11 @@ private Socket socket;
     throws IOException {
         boolean socketConnect = false;
         /*ServerSocket*/ s = new ServerSocket(PORT); // ソケットを作成する
-        System.out.println("Started: " + s);
+        //System.out.println("Started: " + s);
             try {
                 /*Socket*/ socket = s.accept(); // コネクション設定要求を待つ
                 try {
-                    System.out.println(
-                    "Connection accepted: " + socket);
+                    //System.out.println("Connection accepted: " + socket);
                     /*BufferedReader*/ in = 
                     new BufferedReader(
                     new InputStreamReader(
@@ -53,7 +52,7 @@ System.out.println(str);
      //もしソケットの確立が正常でなくtry文の途中で終了した場合はソケットを閉じる
      //この文は本当に必要か？
      if(!socketConnect){
-        System.out.println("closing...");
+        //System.out.println("closing...");
         socket.close();
      }
 
@@ -112,8 +111,9 @@ System.out.println(str);
  }
 
  //Closeしない限り通信可能なはず
+ @Override
  public void Close() {
-    System.out.println("closing...");
+    //System.out.println("closing...");
     try{
         socket.close();
         s.close();
